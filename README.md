@@ -2,6 +2,7 @@
 New smaller size board is less wasteful and has on-board buttons that actually work with the new script!
 LEDs are connected to different GPIOs than the original board, so the old script will not work properly.
 Plug the RPI and the OpenXenium modchip into their respective headers, and run the new script.
+The DETECT LED below the OpenXenium outline will turn on when a modchip is inserted.
 
 ### Raspberry PI:
 - This has only been tested on PI Zero W so far.
@@ -32,7 +33,6 @@ write to the flash chip. This overwrites the OpenXenium firmware, so you must re
 the CPLD afterwards by pressing the CPLD button.
 
 ### SMALL PC BOARD
-
 
 ![RPI PXB](hardware/RaspberryPIZero-small/images/RaspberryPIZero-small.front.png)
 
