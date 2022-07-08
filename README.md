@@ -9,13 +9,13 @@ Plug the RPI and the OpenXenium modchip into their respective headers, and run t
 -------------
 ## INSTALLING THE XENIUM PROGRAMMER
 
-- Connect to the PI or Omega via SSH or Serial terminal 
+On the PI:
 - Clone this repo by running: `git clone https://github.com/captmicr0/xenium-programmer`
 - Then run: `./install`
 
 ## UPDATING XENIUM PROGRAMMER
 
-- Connect to the PI or Omega via SSH or Serial terminal 
+On the PI:
 - Pull the latest code with: `git pull`
 - Then run: `./install` 
 
