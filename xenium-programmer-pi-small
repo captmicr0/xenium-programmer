@@ -1,0 +1,215 @@
+#!/usr/bin/python3
+
+
+# Python wrapper for Xenium programming using Pi-ZeroW PC-Board
+#
+# Copyright (C) 2019 Koos du Preez (kdupreez@hotmail.com)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+import os
+import subprocess
+import RPi.GPIO as GPIO
+import time
+
+# git root folder.
+programmer_root = os.getcwd()
+
+# Commands
+cmd_jtag =  os.path.join(programmer_root, "xenium-flash/bin/xenium-jtag")
+cmd_jflash =  os.path.join(programmer_root, "xenium-flash/bin/xenium-flash")
+
+# Data Files
+flash_jed = os.path.join(programmer_root, "xenium-bin/xeniumflash.jed")
+xenium_os = os.path.join(programmer_root, "xenium-bin/xenium_blue.bin")
+xenium_jed= os.path.join(programmer_root, "xenium-bin/openxenium.jed")
+
+# LED Pins
+led_err = 5
+led_busy = 6
+led_ok = 13
+led_bios = 19
+led_cpld = 26
+
+# Button Pins
+btn_bios = 9
+btn_cpld = 11
+
+def set_ok():
+    GPIO.output(led_ok, GPIO.HIGH)
+    GPIO.output(led_busy, GPIO.LOW)
+    GPIO.output(led_err, GPIO.LOW)
+
+def set_busy():
+    GPIO.output(led_ok, GPIO.LOW)
+    GPIO.output(led_busy, GPIO.HIGH)
+    GPIO.output(led_err, GPIO.LOW)
+
+def set_error():
+    GPIO.output(led_ok, GPIO.LOW)
+    GPIO.output(led_busy, GPIO.LOW)
+    GPIO.output(led_err, GPIO.HIGH)
+
+def set_cpld():
+    GPIO.output(led_bios, GPIO.LOW)
+    GPIO.output(led_cpld, GPIO.HIGH)
+
+def set_bios():
+    GPIO.output(led_bios, GPIO.HIGH)
+    GPIO.output(led_cpld, GPIO.LOW)
+
+def rst_cpldbios():
+    GPIO.output(led_bios, GPIO.LOW)
+    GPIO.output(led_cpld, GPIO.LOW)
+
+def rst_status():
+    GPIO.output(led_ok, GPIO.LOW)
+    GPIO.output(led_busy, GPIO.LOW)
+    GPIO.output(led_err, GPIO.LOW)
+    time.sleep(0.1)
+
+#flag set when running an operation
+in_progress = False
+
+#CPLD button handler
+def btn_cpld_handler(ch):
+    #make sure there isnt any running operation
+    if in_progress:
+        return
+    
+    #software debounce
+    time.sleep(0.05)
+    if GPIO.input(ch):
+        in_progress = True
+
+        rst_status()
+        set_cpld()
+        time.sleep(3)
+
+        # Program CPLD with OpenXenium Firmware.
+        set_busy()
+        print("---------------------------------------------")
+        print("PROGRAMMING XILINX CPLD: OPEN XENIUM FIRMWARE")
+        print("---------------------------------------------", flush=True)
+        sub_proc = subprocess.run([cmd_jtag, xenium_jed])
+        if sub_proc.returncode == 0:
+            set_ok()
+        else:
+            print("ERROR Programming the Xilinx CPLD!")
+            print("Please double check your JTAG connection and wires!", flush=True)
+            set_error()
+        
+        #give chance to read status
+        time.sleep(3)
+
+        in_progress = False
+
+#BIOS button handler
+def btn_bios_handler(ch):
+    #make sure there isnt any running operation
+    if in_progress:
+        return
+    
+    #software debounce
+    time.sleep(0.05)
+    if GPIO.input(ch):
+        in_progress = True
+
+        rst_status()
+        set_bios()
+        time.sleep(3)
+
+        # Program CPLD with BitBus Flash Writer code.
+        set_busy()
+        print("--------------------------------------")
+        print("PROGRAMMING XILINX CPLD: BITBUS BRIDGE")
+        print("--------------------------------------", flush=True)
+        sub_proc = subprocess.run([cmd_jtag, flash_jed])
+        if sub_proc.returncode == 0:
+            set_ok()
+
+            # Write OpenXenium OS to Flash Chip
+            set_busy()
+            print("-----------------------------")
+            print("PROGRAMMING FLASH : XENIUM OS")
+            print("-----------------------------", flush=True)
+            sub_proc = subprocess.run([cmd_jflash, xenium_os, "-y"])
+            if sub_proc.returncode == 0:
+                set_ok()
+            else:
+                set_error()
+                print("ERROR Loading XeniumOS into OpenXenium Flash memory!")
+                print("Please double check your LPC Header connection and wires!", flush=True)
+        else:
+            set_error()
+            print("ERROR Programming the Xilinx CPLD!")
+            print("Please double check your JTAG connection and wires!", flush=True)
+        
+        #give chance to read status
+        time.sleep(3)
+
+        in_progress = False
+
+if __name__ == '__main__':
+    print("▒██   ██▒▓█████  ███▄    █  ██▓ █    ██  ███▄ ▄███▓")
+    print("▒▒ █ █ ▒░▓█   ▀  ██ ▀█   █ ▓██▒ ██  ▓██▒▓██▒▀█▀ ██▒")
+    print("░░  █   ░▒███   ▓██  ▀█ ██▒▒██▒▓██  ▒██░▓██    ▓██░")
+    print(" ░ █ █ ▒ ▒▓█  ▄ ▓██▒  ▐▌██▒░██░▓▓█  ░██░▒██    ▒██ ")
+    print("▒██▒ ▒██▒░▒████▒▒██░   ▓██░░██░▒▒█████▓ ▒██▒   ░██▒")
+    print("▒▒ ░ ░▓ ░░░ ▒░ ░░ ▒░   ▒ ▒ ░▓  ░▒▓▒ ▒ ▒ ░ ▒░   ░  ░")
+    print("░░   ░▒ ░ ░ ░  ░░ ░░   ░ ▒░ ▒ ░░░▒Programmer░     ░")
+    print(" ░    ░     ░      ░   ░ ░  ▒ kooscode@github  ░   ")
+    print(" ░    ░     ░  ░ edit by ░  ░captmicr0@github  ░   ", flush=True)
+    
+    #using Broadcom pin numbering.
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
+
+    #setup LED pins as output
+    GPIO.setup(led_ok, GPIO.OUT)
+    GPIO.setup(led_busy, GPIO.OUT)
+    GPIO.setup(led_err, GPIO.OUT)
+    GPIO.setup(led_bios, GPIO.OUT)
+    GPIO.setup(led_cpld, GPIO.OUT)
+
+    #setup BTN pins as output
+    GPIO.setup(btn_bios, GPIO.IN)
+    GPIO.setup(btn_cpld, GPIO.IN)
+
+    #initialize
+    rst_status()
+    rst_cpldbios()
+    time.sleep(0.5)
+    in_progress = False
+
+    #add button events
+    GPIO.add_event_detect(btn_bios, GPIO.RISING,
+                          callback=btn_bios_handler,
+                          bouncetime=300)
+    GPIO.add_event_detect(btn_cpld, GPIO.RISING,
+                          callback=btn_cpld_handler,
+                          bouncetime=300)
+
+    #loop to wait for event
+    print("waiting for button press...")
+
+    while True:
+        try:
+            time.sleep(1)
+        except KeyboardInterrupt:
+            break
+    
+    print("exiting...")
+    GPIO.cleanup()

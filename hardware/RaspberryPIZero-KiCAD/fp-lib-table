@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name "xenium-programmer-rpi")(type "KiCad")(uri "$(KIPRJMOD)/xenium-programmer-rpi.pretty")(options "")(descr ""))
+)

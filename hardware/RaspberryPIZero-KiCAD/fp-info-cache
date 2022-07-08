@@ -1,0 +1,162 @@
+37911415379012
+0-myparts
+BCS-108-L-S-PE-BE
+
+
+0
+8
+8
+0-myparts
+GP2Y0A21YK0F-JST
+JST PH series connector, S3B-PH-K (http://www.jst-mfg.com/product/pdf/eng/ePH.pdf), generated with kicad-footprint-generator
+connector JST PH top entry
+0
+3
+3
+0-myparts
+JLCPCB_ToolingHole
+
+
+0
+0
+0
+0-myparts
+LED_RGB_0606
+http://optoelectronics.liteon.com/upload/download/DS22-2008-0044/LTST-C19HE1WT.pdf
+
+0
+4
+4
+0-myparts
+LED_RGB_REV_0606
+http://optoelectronics.liteon.com/upload/download/DS22-2008-0044/LTST-C19HE1WT.pdf
+
+0
+4
+4
+0-myparts
+LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm
+https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf
+LED RGB NeoPixel
+0
+4
+4
+0-myparts
+LGA-8_1.2x1.2mm_P0.4mm
+LGA-8, 1.2x1.2mm, 0.4mm pitch
+
+0
+8
+8
+0-myparts
+MB8S_SOIC-4_4.55x3.7mm_P2.54mm
+SOIC, 6 Pin (https://toshiba.semicon-storage.com/info/docget.jsp?did=11791&prodName=TLP185), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOIC SO
+0
+4
+4
+0-myparts
+MDA1050
+
+
+0
+2
+2
+0-myparts
+RaspberryPI_Zero
+Raspberry Pi board model B+, full outline with position of big connectors &amp; drill holes
+
+0
+40
+40
+0-myparts
+Relay_DPDT_Kemet_EB2_NU_DoubleCoil
+Kemet signal relay, DPDT, double coil latching, https://content.kemet.com/datasheets/KEM_R7002_EC2_EE2.pdf
+Kemet EC2 signal relay DPDT double dual coil latching surface mount SMD
+0
+10
+10
+0-myparts
+RotaryEncoder_Generic
+Alps rotary encoder, EC12E... with switch, vertical shaft, http://www.alps.com/prod/info/E/HTML/Encoder/Incremental/EC11/EC11E15204A3.html
+rotary encoder
+0
+7
+5
+0-myparts
+SAMTEC_TSM-102-01-S-DH
+
+
+0
+4
+4
+0-myparts
+SDR1307
+
+
+0
+2
+2
+0-myparts
+SOICBite-8
+
+
+0
+8
+8
+0-myparts
+SOT-23-JUMPER23
+SOT, 3 Pin (https://www.jedec.org/system/files/docs/to-236h.pdf variant AB), generated with kicad-footprint-generator ipc_gullwing_generator.py
+SOT TO_SOT_SMD
+0
+3
+3
+0-myparts
+SSD1331_23p_ribbon
+
+
+0
+23
+23
+0-myparts
+TDK-SPM4015-LR
+
+
+0
+2
+2
+0-myparts
+TQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm_LongPads
+TQFN, 24 Pin (https://ams.com/documents/20143/36005/AS1115_DS000206_1-00.pdf), generated with kicad-footprint-generator ipc_noLead_generator.py
+TQFN NoLead
+0
+29
+25
+0-myparts
+TestPad_01x02
+
+
+0
+2
+2
+0-myparts
+UG-9664HDDAG01_WRAPAROUND
+
+
+0
+23
+23
+0-myparts
+UQFN-40-1EP_5x5mm_P0.4mm_EP3.4x3.4mm_ThermalVias
+UQFN, 40 Pin (http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=345), generated with kicad-footprint-generator ipc_noLead_generator.py
+UQFN NoLead
+0
+55
+41
+0-myparts
+VL53L0X
+
+
+0
+12
+12
