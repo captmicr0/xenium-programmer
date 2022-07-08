@@ -1,6 +1,6 @@
 # OpenXenium JTAG and Flash Memory programmer
 New smaller size board is less wasteful and has on-board buttons that actually work with the new script!  
-LEDs are connected to different GPIOs than the original board, so the old script will not work properly.  
+LEDs are connected to different GPIOs than the original board, so **the old script will not work properly**.  
 Plug the RPI and the OpenXenium modchip into their respective headers, and run the new script.  
 The DETECT LED below the OpenXenium outline will turn on when a modchip is inserted.
 
@@ -28,7 +28,7 @@ On the PI:
 - On the board, press the BIOS button to write a new BIOS to the OpenXenium flash chip
 - On the board, press the CPLD button to program the Xilinx CPLD on the OpenXenium.
 
-Note: Pressing the BIOS button will flash a program onto the CPLD that allows you to  
+**Note**: Pressing the BIOS button will flash a program onto the CPLD that allows you to  
 write to the flash chip. This overwrites the OpenXenium firmware, so you must re-program  
 the CPLD afterwards by pressing the CPLD button.
 
